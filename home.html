@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div class="center">
+		<div class="input-field">
+		  <input id="input" type="text" placeholder="введи пароль" autocomplete="off">
+		</div>
+	  </div>
+	  <script>
+		  const input = document.getElementById("input");
+  
+		const pass = Array(...Array(5)).map(function () {
+			return Math.floor((Math.random() * 4 + 3));
+		});
+		
+		console.log(pass);
+		let counter = 0;
+		
+		
+		input.addEventListener("keyup", function (e) {
+			if (e.code == "Enter") {
+			const attempt = this.value.split("");
+			if (attempt.length !== pass.length) {
+				this.value = "";
+				counter++;
+				return;
+			}
+			const checked = diff(attempt, pass);
+			this.value = checked.str;
+			this.blur();
+			if (checked.correct) {
+				input.remove();
+				
+				let ul = document.createElement('div');
+				document.body.append(ul);
+				let blockWin = document.createElement('div');
+				blockWin.textContent = "WIN";
+				document.body.style.backgroundColor = 'green';
+				document.body.style.color = 'white';
+				document.body.style.fontSize = '36px';
+				document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+				ul.append(blockWin);
+				
+			} else if (++counter == 4) {
+				input.remove();
+				let ul = document.createElement('div');
+				document.body.append(ul);
+				let blockFail = document.createElement('div');
+				blockFail.textContent = "FAIL";
+				document.body.style.backgroundColor = 'red';
+				document.body.style.color = 'white';
+				document.body.style.fontSize = '36px';
+				document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+				ul.append(blockFail);
+			}
+			}
+		});
+		
+		input.addEventListener("focus", function () {
+			this.value = "";
+		});
+		
+		
+		
+		function diff(arr1, arr2) {
+			let correct = 1;
+			const arr = arr1.map((e, i) => {
+			const flag = e == arr2[i];
+			if (!flag) {
+				correct = 0;
+			}
+			return flag ? e : "*";
+			});
+			return {
+			correct: correct,
+			str: arr.join("")
+			};
+		}
+  
+	  </script>
+	  <style>
+		  body{
+		margin: 0 auto;
+		}
+		.center{
+		display:flex;
+		justify-content:center;
+		}
+		input{
+		color:black;
+		font-size:36px;
+		margin:10px;
+		}
+
+	  </style>
+</body>
+</html>
